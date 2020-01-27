@@ -20,13 +20,6 @@ async function addPost(req, res) {
     res.send(post)
 }
 
-
-
-
-
-
-
-
 async function deletePost(req, res) {
     await postService.remove(req.params.id)
     res.end()
@@ -40,10 +33,27 @@ async function likePost(req, res) {
     let likedBy = req.body.likedByObj
     let postId = req.body.postId
     console.log('backend -> post.controller')
-    await postService.likePost(likedBy, postId)
-    res.send()
+    try {
+        await postService.likePost(likedBy, postId)
+        res.send()
+
+    } catch (err) {
+        logger.error(`Cannot complete like on post if: ${postId} - \n` + err);
+    }
 }
 
+async function unlikePost(req, res) {
+    let unlikedBy = req.body.likedByObj
+    let postId = req.body.postId
+    console.log('backend -> post.controller')
+    try {
+        await postService.unlikePost(unlikedBy, postId)
+        res.send()
+
+    } catch (err) {
+        logger.error(`Cannot complete unlike on post if: ${postId} - \n` + err);
+    }
+}
 
 
 
@@ -58,5 +68,6 @@ module.exports = {
     getPosts,
     deletePost,
     addPost,
-    likePost
+    likePost,
+    unlikePost
 }

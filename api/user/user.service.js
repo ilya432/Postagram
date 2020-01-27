@@ -23,7 +23,7 @@ async function query(filterBy = {}) {
         users.forEach(user => {
             count++
             console.log(`user - ${count} -->` + '\n id: ' + user._id + '\n email: ' + user.email + '\n username: ' + user.username)
-            delete user.password;
+            delete user.username;
         })
         return users
     } catch (err) {

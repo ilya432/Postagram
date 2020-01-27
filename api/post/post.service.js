@@ -83,36 +83,37 @@ async function add(post) {
 //     }
 // }
 
-async function likePost(likedBy, postId) {
-    console.log('backend: post.service!')
+async function likePost(liker, postId) {
+    console.log('backend: post.service like!')
     const posts = await dbService.getCollection('posts')
-
-    try {
-        const likedPost = await posts.findOne({ "_id": ObjectId(postId) })
-        const bb = await likedPost.likedBy.update(
-            {},
-            { $push: { likedBy } }
-        )
-        console.log(bb)
-        // return await likedPost
-    } catch (err) {
-        console.log(`ERROR: cannot vomplete like`)
-        throw err;
-    }
+    posts.updateOne(
+        { "_id": ObjectId(postId) },
+        { $addToSet: { likedBy: liker } }
+    )
+    const likedPost = await posts.findOne({ "_id": ObjectId(postId) })
+    return await likedPost
 }
 
 
 
-
-
-
-
-
-
-
-
-
-
+async function unlikePost(liker, postId) {
+    console.log('backend: post.service unlike!')
+    const posts = await dbService.getCollection('posts');
+    // get from db
+    // in obj - remove liker
+    // updateOne post in db
+    posts.updateOne(
+        { "_id": ObjectId(postId) },
+        // {},
+        { $pull: { likedBy: { nickName: liker.nickName } } }
+        // { multi: true }
+        // { $pull: { likedBy: liker } }
+        // { likedBy: { _id: liker._id } }
+        // { $pull: { likedBy: { "_id": liker._id } } }
+    )
+    const likedPost = await posts.findOne({ "_id": ObjectId(postId) })
+    return await likedPost
+}
 
 
 function _buildCriteria(filterBy) {
@@ -124,7 +125,8 @@ module.exports = {
     query,
     remove,
     add,
-    likePost
+    likePost,
+    unlikePost
 }
 
 
