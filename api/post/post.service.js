@@ -84,7 +84,7 @@ async function add(post) {
 // }
 
 async function likePost(liker, postId) {
-    console.log('backend: post.service like!')
+    // console.log('backend: post.service like!')
     const posts = await dbService.getCollection('posts')
     posts.updateOne(
         { "_id": ObjectId(postId) },
@@ -93,9 +93,6 @@ async function likePost(liker, postId) {
     const likedPost = await posts.findOne({ "_id": ObjectId(postId) })
     return await likedPost
 }
-
-
-
 async function unlikePost(liker, postId) {
     console.log('backend: post.service unlike!')
     const posts = await dbService.getCollection('posts');

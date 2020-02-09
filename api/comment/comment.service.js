@@ -1,14 +1,15 @@
 
 const dbService = require('../../services/db.service')
 const ObjectId = require('mongodb').ObjectId
+const logger = require('../../services/logger.service')
 
 async function query(filterBy = {}) {
     const criteria = _buildCriteria(filterBy)
     // console.log('criteria: ' + criteria[2])
-    const collection = await dbService.getCollection('review')
+    const collection = await dbService.getCollection('comment')
     try {
-        const reviews = await collection.find(criteria).toArray();
-        // var reviews = await collection.aggregate([
+        const comments = await collection.find(criteria).toArray();
+        // var comments = await collection.aggregate([
         //     { $match: filterBy },
         //     {
         //         $lookup:
@@ -32,40 +33,35 @@ async function query(filterBy = {}) {
         //     { $unwind: '$aboutUser' }
         // ]).toArray()
 
-        reviews = reviews.map(review => {
-            review.byUser = { _id: review.byUser._id, username: review.byUser.username }
-            review.aboutUser = { _id: review.aboutUser._id, username: review.aboutUser.username }
-            delete review.byUserId;
-            delete review.aboutUserId;
-            return review;
+        comments = comments.map(comment => {
+            comment.byUser = { _id: comment.byUser._id, username: comment.byUser.username }
+            comment.aboutUser = { _id: comment.aboutUser._id, username: comment.aboutUser.username }
+            delete comment.byUserId;
+            delete comment.aboutUserId;
+            return comment;
         })
-        return reviews
+        return comments
     } catch (err) {
-        console.log('ERROR: cannot find reviews')
+        console.log('ERROR: cannot find comments')
         throw err;
     }
 }
-async function remove(reviewId) {
-    const collection = await dbService.getCollection('review')
+async function remove(commentId) {
+    const collection = await dbService.getCollection('comment')
     try {
-        await collection.deleteOne({ "_id": ObjectId(reviewId) })
+        await collection.deleteOne({ "_id": ObjectId(commentId) })
     } catch (err) {
-        console.log(`ERROR: cannot remove review ${reviewId}`)
+        console.log(`ERROR: cannot remove comment ${commentId}`)
         throw err;
     }
 }
-async function add(review) {
-    review.byUserId = ObjectId(review.byUserId);
-    review.aboutUserId = ObjectId(review.aboutUserId);
-
-    const collection = await dbService.getCollection('review')
-    try {
-        await collection.insertOne(review);
-        return review;
-    } catch (err) {
-        console.log(`ERROR: cannot insert user`)
-        throw err;
-    }
+async function add(comment, postId) {
+    // comment._id = ObjectId(comment.comment);
+    const posts = await dbService.getCollection('posts')
+    posts.updateOne(
+        { "_id": ObjectId(postId) },
+        { $addToSet: { comments: comment } }
+    )
 }
 function _buildCriteria(filterBy) {
     const criteria = {};

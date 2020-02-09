@@ -1,6 +1,6 @@
 
 const dbService = require('../../services/db.service')
-const reviewService = require('../review/review.service')
+const commentService = require('../comment/comment.service')
 const ObjectId = require('mongodb').ObjectId
 const logger = require('../../services/logger.service')
 
@@ -24,6 +24,7 @@ async function query(filterBy = {}) {
             count++
             console.log(`user - ${count} -->` + '\n id: ' + user._id + '\n email: ' + user.email + '\n username: ' + user.username)
             // delete user.username;
+            delete user.password
         })
         return users
     } catch (err) {
@@ -37,11 +38,11 @@ async function getById(userId) {
     try {
         const user = await collection.findOne({ "_id": ObjectId(userId) })
         logger.debug('\nuserId: ' + userId + '\n username: ' + user.username + '\n  email: ' + user.email)
-        // delete user.password
-        // user.givenReviews = await reviewService.query({ byUserId: ObjectId(user._id) })
-        // user.givenReviews = user.givenReviews.map(review => {
-        //     delete review.byUser
-        //     return review
+        delete user.password
+        // user.givenComments = await commentService.query({ byUserId: ObjectId(user._id) })
+        // user.givenComments = user.givenComments.map(comment => {
+        //     delete comment.byUser
+        //     return comment
         // })
         return user
     } catch (err) {

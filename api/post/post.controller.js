@@ -11,7 +11,16 @@ async function getPosts(req, res) {
 
     }
 }
+async function getPost(req, res) {
+    try {
+        const posts = await postService.query(req.query)
+        res.send(posts)
+    } catch (err) {
+        logger.error('Cannot get post', err);
+        res.status(500).send({ error: 'cannot get post' })
 
+    }
+}
 async function addPost(req, res) {
     var post = req.body;
     // logger.error('req -> post: ', post);
@@ -66,6 +75,7 @@ async function unlikePost(req, res) {
 
 module.exports = {
     getPosts,
+    getPost,
     deletePost,
     addPost,
     likePost,
