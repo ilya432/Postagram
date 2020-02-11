@@ -5,7 +5,7 @@ const logger = require('../../services/logger.service')
 const saltRounds = 10
 
 async function login(email, password) {
-    logger.debug(`auth.service - login with email: ${email}`)
+    // logger.debug(`auth.service - login with email: ${email}`)
     if (!email || !password) return Promise.reject('email and password are required!')
 
     const user = await userService.getByEmail(email)
@@ -18,8 +18,8 @@ async function login(email, password) {
 }
 
 async function signup(email, password, username, imgUrl) {
-    logger.debug(`auth.service - signup with email: ${email}, username: ${username}`)
-    logger.debug(`auth.service - user image: ${imgUrl}`)
+    // logger.debug(`auth.service - signup with email: ${email}, username: ${username}`)
+    // logger.debug(`auth.service - user image: ${imgUrl}`)
     if (!email || !password || !username || !imgUrl) return Promise.reject('email, username, imgUrl and password are required!')
 
     const hash = await bcrypt.hash(password, saltRounds)

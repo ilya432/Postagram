@@ -17,12 +17,12 @@ async function query(filterBy = {}) {
     const criteria = _buildCriteria(filterBy)
     const collection = await dbService.getCollection('user')
     try {
-        console.log(`dbService.getCollection('user')`)
+        // console.log(`dbService.getCollection('user')`)
         const users = await collection.find(criteria).toArray();
         var count = 0
         users.forEach(user => {
             count++
-            console.log(`user - ${count} -->` + '\n id: ' + user._id + '\n email: ' + user.email + '\n username: ' + user.username)
+            // console.log(`user - ${count} -->` + '\n id: ' + user._id + '\n email: ' + user.email + '\n username: ' + user.username)
             // delete user.username;
             delete user.password
         })
@@ -33,11 +33,11 @@ async function query(filterBy = {}) {
     }
 }
 async function getById(userId) {
-    console.log('getById() - ')
+    // console.log('getById() - ')
     const collection = await dbService.getCollection('user')
     try {
         const user = await collection.findOne({ "_id": ObjectId(userId) })
-        logger.debug('\nuserId: ' + userId + '\n username: ' + user.username + '\n  email: ' + user.email)
+        // logger.debug('\nuserId: ' + userId + '\n username: ' + user.username + '\n  email: ' + user.email)
         delete user.password
         // user.givenComments = await commentService.query({ byUserId: ObjectId(user._id) })
         // user.givenComments = user.givenComments.map(comment => {

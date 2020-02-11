@@ -1,24 +1,16 @@
 
+// import commentService from '../comment/comment.service'
+
 module.exports = connectSockets
 
 function connectSockets(io) {
     io.on('connection', socket => {
 
-        socket.on('post newComment', msg => {
-            console.log(msg)
-            console.log(io)
-            io.emit('post addComment', msg)
-            // emits only to sockets in the same room
-            // io.to(socket.myTopic).emit('post addComment', msg)
+        socket.on('post addComment', (comment, postId) => {
+
+            io.emit('post newComment', (comment, postId) => {
+                // commentService.add(comment, postId)
+            })
         })
-
-        // socket.on('chat topic', topic => {
-        //     if (socket.myTopic) {
-        //         socket.leave(socket.myTopic)
-        //     }
-        //     socket.join(topic)
-        //     socket.myTopic = topic;
-        // })
-
     })
 }

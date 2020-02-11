@@ -1,11 +1,11 @@
 const logger = require('../../services/logger.service')
 const commentService = require('./comment.service')
 
-// TODO: needs error handling! try, catch
-
 async function getComments(req, res) {
+
+    logger.debug('comment.controller > postId: ' + req.params.id)
     try {
-        const comments = await commentService.query(req.query)
+        const comments = await commentService.query(req.params.id)
         res.send(comments)
     } catch (err) {
         logger.error('Cannot get comments', err);
@@ -18,10 +18,8 @@ async function deleteComment(req, res) {
     res.end()
 }
 async function addComment(req, res) {
-    console.log('comment' + req.body)
     let comment = req.body.commentObj
     let postId = req.body.postId
-    console.log('backend -> comment.controller')
     try {
         await commentService.add(comment, postId)
         res.send()

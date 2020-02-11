@@ -94,7 +94,7 @@ async function likePost(liker, postId) {
     return await likedPost
 }
 async function unlikePost(liker, postId) {
-    console.log('backend: post.service unlike!')
+    // console.log('backend: post.service unlike!')
     const posts = await dbService.getCollection('posts');
     // get from db
     // in obj - remove liker
