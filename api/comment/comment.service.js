@@ -32,7 +32,10 @@ async function add(comment, postId) {
         { "_id": ObjectId(postId) },
         { $addToSet: { comments: comment } }
     )
+    return comment
 }
+
+
 function _buildCriteria(filterBy) {
     const criteria = {};
     return criteria;
