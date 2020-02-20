@@ -46,6 +46,7 @@ async function query(filterBy = {}) {
     }
 }
 async function remove(postId) {
+    logger.debug('remove id: ' + postId)
     const collection = await dbService.getCollection('posts')
     try {
         await collection.deleteOne({ "_id": ObjectId(postId) })

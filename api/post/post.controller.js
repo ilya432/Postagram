@@ -30,6 +30,7 @@ async function addPost(req, res) {
 }
 
 async function deletePost(req, res) {
+    logger.debug('sdgadav: ')
     await postService.remove(req.params.id)
     res.end()
 }
