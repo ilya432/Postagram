@@ -97,20 +97,18 @@ async function likePost(liker, postId) {
 async function unlikePost(liker, postId) {
     // console.log('backend: post.service unlike!')
     const posts = await dbService.getCollection('posts');
-    // get from db
-    // in obj - remove liker
-    // updateOne post in db
-    posts.updateOne(
+    posts.updateOne({},
         { "_id": ObjectId(postId) },
         // {},
-        { $pull: { likedBy: { nickName: liker.nickName } } }
+        // { $pull: { likedBy: liker } }
+        { $pull: { likedBy: liker } },
         // { multi: true }
         // { $pull: { likedBy: liker } }
         // { likedBy: { _id: liker._id } }
         // { $pull: { likedBy: { "_id": liker._id } } }
     )
-    const likedPost = await posts.findOne({ "_id": ObjectId(postId) })
-    return await likedPost
+    const unlikedPost = await posts.findOne({ "_id": ObjectId(postId) })
+    return await unlikedPost
 }
 
 
