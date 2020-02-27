@@ -85,7 +85,6 @@ async function add(post) {
 // }
 
 async function likePost(liker, postId) {
-    // console.log('backend: post.service like!')
     const posts = await dbService.getCollection('posts')
     posts.updateOne(
         { "_id": ObjectId(postId) },
@@ -95,17 +94,10 @@ async function likePost(liker, postId) {
     return await likedPost
 }
 async function unlikePost(liker, postId) {
-    // console.log('backend: post.service unlike!')
     const posts = await dbService.getCollection('posts');
-    posts.updateOne({},
+    posts.updateOne(
         { "_id": ObjectId(postId) },
-        // {},
-        // { $pull: { likedBy: liker } }
-        { $pull: { likedBy: liker } },
-        // { multi: true }
-        // { $pull: { likedBy: liker } }
-        // { likedBy: { _id: liker._id } }
-        // { $pull: { likedBy: { "_id": liker._id } } }
+        { $pull: { likedBy: liker } }
     )
     const unlikedPost = await posts.findOne({ "_id": ObjectId(postId) })
     return await unlikedPost

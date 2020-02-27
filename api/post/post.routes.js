@@ -12,7 +12,7 @@ router.get('/:id/comments', getComments)
 // router.post('/', requireAuth, addPost)
 router.delete('/:id', requireAuth, deletePost)
 router.post('/like', likePost)
-router.put('/unlike', unlikePost)
+router.post('/unlike', unlikePost)
 router.post('/', addPost)
 router.post('/:id/comments', addComment)
 

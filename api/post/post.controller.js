@@ -11,6 +11,7 @@ async function getPosts(req, res) {
 
     }
 }
+
 async function getPost(req, res) {
     try {
         const posts = await postService.query(req.query)
@@ -21,6 +22,7 @@ async function getPost(req, res) {
 
     }
 }
+
 async function addPost(req, res) {
     var post = req.body;
     // logger.error('req -> post: ', post);
@@ -35,14 +37,9 @@ async function deletePost(req, res) {
     res.end()
 }
 
-
-
-
-
 async function likePost(req, res) {
     let likedBy = req.body.likedByObj
     let postId = req.body.postId
-    console.log('backend -> post.controller')
     try {
         await postService.likePost(likedBy, postId)
         res.send()
@@ -53,9 +50,8 @@ async function likePost(req, res) {
 }
 
 async function unlikePost(req, res) {
-    let unlikedBy = req.body.likedByObj
+    let unlikedBy = req.body.unlikedByObj
     let postId = req.body.postId
-    console.log('backend -> post.controller')
     try {
         await postService.unlikePost(unlikedBy, postId)
         res.send()
@@ -64,14 +60,6 @@ async function unlikePost(req, res) {
         logger.error(`Cannot complete unlike on post if: ${postId} - \n` + err);
     }
 }
-
-
-
-
-
-
-
-
 
 
 module.exports = {
