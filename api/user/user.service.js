@@ -33,17 +33,10 @@ async function query(filterBy = {}) {
     }
 }
 async function getById(userId) {
-    // console.log('getById() - ')
     const collection = await dbService.getCollection('user')
     try {
         const user = await collection.findOne({ "_id": ObjectId(userId) })
-        // logger.debug('\nuserId: ' + userId + '\n username: ' + user.username + '\n  email: ' + user.email)
         delete user.password
-        // user.givenComments = await commentService.query({ byUserId: ObjectId(user._id) })
-        // user.givenComments = user.givenComments.map(comment => {
-        //     delete comment.byUser
-        //     return comment
-        // })
         return user
     } catch (err) {
         console.log(`ERROR: while finding user ${userId}`)
@@ -82,6 +75,7 @@ async function update(user) {
     }
 }
 async function add(user) {
+    logger.debug('uers.service add user: ' + user)
     const collection = await dbService.getCollection('user')
     try {
         await collection.insertOne(user);
