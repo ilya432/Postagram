@@ -43,7 +43,6 @@ async function likePost(req, res) {
     try {
         await postService.likePost(likedBy, postId)
         res.send()
-
     } catch (err) {
         logger.error(`Cannot complete like on post if: ${postId} - \n` + err);
     }

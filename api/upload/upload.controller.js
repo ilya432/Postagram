@@ -4,7 +4,7 @@ const uploadService = require('./upload.service')
 async function uploadImage(req, res, next) {
     try {
         var file = req.files.photo;
-        console.log(file)
+        // console.log(file)
         // const image = await uploadService.uploadImage(req.query)
         res.send(file)
     } catch (err) {
