@@ -1,7 +1,7 @@
 
 const MongoClient = require('mongodb').MongoClient;
-// const config = require('../config')
-require('dotenv').config()
+const config = require('../config')
+// require('dotenv').config()
 
 var dbConn = null;
 
@@ -12,10 +12,10 @@ async function getCollection(collectionName) {//returns collection by name
 async function connect() {//returns db by db name
     if (dbConn) return dbConn;
     try {
-        // const client = await MongoClient.connect(config.dbURL, { useUnifiedTopology: true });//useNewUrlParser / useUnifiedTopology
+        const client = await MongoClient.connect(config.dbURL, { useUnifiedTopology: true });//useNewUrlParser / useUnifiedTopology
         // const db = client.db(config.dbName);
         // console.log("process.env.REACT_APP_DBURL: " + process.env.REACT_APP_DBURL)
-        const client = await MongoClient.connect(process.env.REACT_APP_DBURL, { useUnifiedTopology: true });
+        // const client = await MongoClient.connect(process.env.REACT_APP_DBURL, { useUnifiedTopology: true });
         const db = client.db(process.env.REACT_APP_DBNAME);
         dbConn = db;
         return db;
