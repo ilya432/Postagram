@@ -14,12 +14,13 @@ const userRoutes = require('./api/user/user.routes')
 const postRoutes = require('./api/post/post.routes')
 // const commentRoutes = require('./api/comment/comment.routes')
 const connectSockets = require('./api/socket/socket.routes')
-const uploads = require('./api/upload/upload.routes')
+const uploadRoutes = require('./api/upload/upload.routes')
 
+const logger = require('./services/logger.service')
 
 
 app.use(cookieParser())
-// app.use(bodyParser.json());
+app.use(bodyParser.json());
 app.use(express.json());//in new version of express body-parser isn't needed here
 app.use(session({
     secret: 'keyboard cat',
@@ -43,12 +44,10 @@ app.use('/api/auth', authRoutes)
 app.use('/api/user', userRoutes)
 app.use('/api/post', postRoutes)
 // app.use('/api/comment', commentRoutes)
-app.use('/api/upload', uploads)
+app.use('/api/upload', uploadRoutes)
 connectSockets(io)
 
 
-
-const logger = require('./services/logger.service')
 const port = process.env.PORT || 3030;
 http.listen(port, () => {
     logger.info('Server is running on port: ' + port)
