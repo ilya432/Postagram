@@ -45,8 +45,22 @@ async function query(filterBy = {}) {
         throw err;
     }
 }
+async function getPost(postId) {
+    logger.debug('service -> postId: ' + postId)
+    const collection = await dbService.getCollection('posts')
+
+    try {
+        var post = await collection.findOne({ "_id": ObjectId(postId) })
+        // logger.debug('service -> post: ' + JSON.stringify(post))
+        return post;
+
+    } catch (err) {
+        console.log(`ERROR: cannot get post ${postId}`)
+        throw err;
+    }
+}
 async function remove(postId) {
-    // logger.debug('remove id: ' + postId)
+    logger.debug('remove id: ' + postId)
     const collection = await dbService.getCollection('posts')
     try {
         await collection.deleteOne({ "_id": ObjectId(postId) })
@@ -88,7 +102,8 @@ async function likePost(liker, postId) {
         { $addToSet: { likedBy: liker } }
     )
     const likedPost = await posts.findOne({ "_id": ObjectId(postId) })
-    return await likedPost
+    // logger.debug(JSON.stringify(likedPost))
+    return JSON.stringify(likedPost)
 }
 async function unlikePost(liker, postId) {
     const posts = await dbService.getCollection('posts');
@@ -97,7 +112,8 @@ async function unlikePost(liker, postId) {
         { $pull: { likedBy: liker } }
     )
     const unlikedPost = await posts.findOne({ "_id": ObjectId(postId) })
-    return await unlikedPost
+    // logger.debug(JSON.stringify(unlikedPost))
+    return JSON.stringify(unlikedPost)
 }
 
 
@@ -108,6 +124,7 @@ function _buildCriteria(filterBy) {
 
 module.exports = {
     query,
+    getPost,
     remove,
     add,
     likePost,
