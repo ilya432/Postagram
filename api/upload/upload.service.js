@@ -2,7 +2,6 @@
 const cloudinary = require('cloudinary').v2;
 require('dotenv').config()
 const logger = require('../../services/logger.service')
-// import axios from 'axios'
 
 cloudinary.config({
     cloud_name: process.env.REACT_APP_CLOUD_NAME,
@@ -14,9 +13,6 @@ cloudinary.config({
 
 // const PRESET_NAME = process.env.REACT_APP_PRESET_NAME;
 // const UPLOAD_URL = `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUD_NAME}/image/upload`
-
-
-
 
 
 let uploadImage = (imageUrl) => {

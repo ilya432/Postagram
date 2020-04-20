@@ -2,7 +2,6 @@ const authService = require('./auth.service')
 const logger = require('../../services/logger.service')
 
 async function login(req, res) {
-    // logger.debug('updateUser -  ' + req)
     const { email, password } = req.body
     try {
         const user = await authService.login(email, password)
@@ -12,7 +11,6 @@ async function login(req, res) {
         res.status(401).send({ error: err })
     }
 }
-
 async function signup(req, res) {
     try {
         const { email, password, username, followers, following, imgUrl } = req.body
@@ -25,7 +23,6 @@ async function signup(req, res) {
         res.status(500).send({ error: 'could not signup, please try later' })
     }
 }
-
 async function logout(req, res) {
     try {
         req.session.destroy()

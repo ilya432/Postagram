@@ -4,10 +4,8 @@ const ObjectId = require('mongodb').ObjectId
 const logger = require('../../services/logger.service')
 
 async function query(postId) {
-    // logger.debug('comment.service > postId: ' + JSON.stringify(postId))
     const posts = await dbService.getCollection('posts')
     try {
-        // const comments = await posts.find(criteria).toArray();
         var post = await posts.findOne({ "_id": ObjectId(postId) })
         var comments = post.comments;
         return comments
@@ -34,7 +32,6 @@ async function add(comment, postId) {
     )
     return comment
 }
-
 
 function _buildCriteria(filterBy) {
     const criteria = {};

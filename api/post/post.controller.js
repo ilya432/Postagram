@@ -15,7 +15,7 @@ async function getPosts(req, res) {
 async function getPost(req, res) {
     let postId = req.params.id
     try {
-        logger.debug('controller -> postId: ' + JSON.stringify(postId))
+        // logger.debug('controller -> postId: ' + JSON.stringify(postId))
         // const post = await postService.getPost(JSON.stringify(postId))
         const post = await postService.getPost(postId)
         // logger.debug('post: ' + post)
@@ -29,14 +29,10 @@ async function getPost(req, res) {
 
 async function addPost(req, res) {
     var post = req.body;
-    // logger.error('req -> post: ', post);
-    // post._id = req.session.user._id;
     post = await postService.add(post)
     res.send(post)
 }
-
 async function deletePost(req, res) {
-    // logger.debug('sdgadav: ')
     await postService.remove(req.params.id)
     res.end()
 }
@@ -63,7 +59,6 @@ async function unlikePost(req, res) {
         logger.error(`Cannot complete unlike on post id: ${postId} - \n` + err);
     }
 }
-
 
 module.exports = {
     getPosts,

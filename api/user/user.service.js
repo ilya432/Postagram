@@ -1,17 +1,7 @@
 
 const dbService = require('../../services/db.service')
-const commentService = require('../comment/comment.service')
 const ObjectId = require('mongodb').ObjectId
-const logger = require('../../services/logger.service')
-
-module.exports = {
-    query,
-    getById,
-    getByEmail,
-    remove,
-    update,
-    add
-}
+// const logger = require('../../services/logger.service')
 
 async function query(filterBy = {}) {
     const criteria = _buildCriteria(filterBy)
@@ -75,7 +65,6 @@ async function update(user) {
     }
 }
 async function add(user) {
-    logger.debug('uers.service add user: ' + user)
     const collection = await dbService.getCollection('user')
     try {
         await collection.insertOne(user);
@@ -94,4 +83,13 @@ function _buildCriteria(filterBy) {
         criteria.balance = { $gte: +filterBy.minBalance }
     }
     return criteria;
+}
+
+module.exports = {
+    query,
+    getById,
+    getByEmail,
+    remove,
+    update,
+    add
 }
