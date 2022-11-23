@@ -26,7 +26,7 @@
     "express-session": "^1.16.2",
     "heroku": "^7.36.3",
     "mongodb": "^3.2.7",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.5.0"
   },
   "homepage": "https://ilya432.github.io/Postagram",
   "devDependencies": {
